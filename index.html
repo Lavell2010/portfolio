@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Neighborhood MacGyver | Combined Master Portal</title>
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --text-light: #f8fafc;
+            --panel-bg: #111827;
+            --border-color: #1f2937;
+            --accent-blue: #38bdf8;
+            --accent-green: #22c55e;
+            --bg-color: #0b111e;
+            --card-bg: #141b2b;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border-color-left: #222d44;
+            --popup-bg: #1a233a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100vh;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden; /* Pins layouts to enforce a single scrolling container */
+        }
+
+        /* Master Dashboard Container Layout */
+        .dashboard-wrapper {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* --- LEFT SPLIT COLUMN: INJECTION MOLDING RESUME --- */
+        .left-resume-pane {
+            width: 50%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            border-right: 2px solid var(--border-color);
+            background: linear-gradient(180deg, #0b111e 0%, #0d1527 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* --- RIGHT SPLIT COLUMN: DIAGNOSTICS & REPAIR --- */
+        .right-diagnostics-pane {
+            width: 50%;
+            height: 100%;
+            overflow-y: auto; /* Active scrolling window */
+            padding: 2rem;
+            background-color: var(--bg-dark);
+        }
+        /* Left Resume Pane Custom Card Structural Components */
+        .panel-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-color-left);
+        }
+
+        header.resume-header {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 14px;
+            border: 1px solid var(--border-color-left);
+        }
+
+        header.resume-header h1 { font-size: 2.2rem; margin-bottom: 8px; font-weight: 700; color: #fff; }
+        header.resume-header h2 { font-size: 1.15rem; color: var(--accent-green); font-weight: 500; margin-bottom: 20px; }
+        header.resume-header p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6; }
+
+        .cta-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .btn { text-decoration: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+        .btn-primary { background-color: var(--accent-green); color: #0b111e; }
+        .btn-secondary { border: 1px solid var(--border-color-left); color: var(--text-main); background: rgba(255,255,255,0.02); }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+
+        .section-title-left { font-size: 1.25rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color-left); padding-bottom: 0.5rem; color: var(--accent-blue); }
+        .skills-grid { display: flex; flex-direction: column; gap: 20px; }
+        .skill-column h4 { color: var(--accent-green); margin-bottom: 10px; font-size: 0.95rem; }
+        .tag-group { display: flex; flex-wrap: wrap; gap: 6px; }
+        .left-resume-pane .tag { background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-color-left); padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); transition: all 0.2s; }
+        .interactive-tag { cursor: pointer; border-color: rgba(56, 189, 248, 0.3) !important; }
+        .interactive-tag::after { content: " ↗"; font-size: 0.7rem; color: var(--accent-blue); }
+        .interactive-tag:hover { border-color: var(--accent-blue) !important; background: rgba(56, 189, 248, 0.05); color: #fff; }
+
+        .timeline-stream { display: flex; flex-direction: column; gap: 25px; }
+        .job-head { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+        .title-text { font-size: 1.05rem; font-weight: 600; color: #fff; }
+        .title-text span { color: var(--text-muted); font-weight: 400; font-size: 0.95rem; }
+        .date-tag { color: var(--accent-green); font-size: 0.8rem; background: rgba(34, 197, 150, 0.05); padding: 2px 10px; border-radius: 4px; border: 1px solid rgba(34, 197, 150, 0.15); }
+        .bullet-stream { list-style-type: none; }
+        .bullet-stream li { color: var(--text-muted); margin-bottom: 6px; position: relative; padding-left: 15px; font-size: 0.9rem; line-height: 1.5; }
+        .bullet-stream li::before { content: "•"; position: absolute; left: 0; color: var(--accent-green); }
+
+        /* --- RESTORED UNTOUCHED ORIGINAL DIAGNOSTICS & REPAIR ANIMATED HEADING ENGINE --- */
+        header.diagnostics-header {
+            background-color: var(--panel-bg);
+            padding: 3rem 1rem 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+        }
+        header.diagnostics-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+        }
+        .flash-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0 0 0.5rem 0;
+            font-family: 'Courier New', Courier, monospace;
+            animation: colorFlash 2s infinite alternate ease-in-out;
+        }
+        @keyframes colorFlash {
+            0% { color: #38bdf8; text-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+            33% { color: #f43f5e; text-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+            66% { color: #eab308; text-shadow: 0 0 15px rgba(234, 179, 8, 0.4); }
+            100% { color: #22c55e; text-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+        }
+        .subtitle {
+            color: #ffffff;
+            font-size: 1.25rem;
+            max-width: 650px;
+            margin: 1.5rem auto 0 auto;
+            line-height: 1.4;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transform: rotate(-1deg);
+            background: linear-gradient(135deg, #ff0055 0%, #ffaa00 100%);
+            padding: 12px 20px;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px #000000;
+            border-radius: 4px;
+            text-shadow: 2px 2px 0px #000000;
+        }
+        .highlight { color: #ffff00; text-decoration: underline; }
+
+        .terminal-banner {
+            background-color: #020617;
+            border: 1px solid #334155;
+            border-left: 4px solid var(--accent-green);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #34d399;
+            margin-bottom: 2rem;
+        }
+        .section-title-right {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        /* 2x2 Responsive Matrix Layout Grid for Services */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background-color: var(--panel-bg);
+            border-radius: 6px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: #475569;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .card h3 { margin-top: 0; color: var(--text-light); font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+        .card h3::before { content: '⚡'; color: #eab308; }
+        .card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        .tech-tags { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .tech-tags .tag { font-family: monospace; font-size: 0.75rem; background: #070a12; border: 1px solid #243553; padding: 2px 8px; border-radius: 4px; color: var(--accent-blue); }
+
+        /* Form Styling */
+        .form-container { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 2rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; color: #94a3b8; }
+        input, textarea { width: 100%; padding: 0.75rem; background-color: #070a12; border: 1px solid #334155; border-radius: 4px; color: var(--text-light); font-size: 1rem; box-sizing: border-box; }
+        input:focus, textarea:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 5px rgba(56, 189, 248, 0.2); }
+        
+        /* Modal Framework Overlay */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7,11,20,0.9); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-card { background: var(--popup-bg); border: 1px solid var(--accent-blue); border-radius: 14px; width: 90%; max-width: 520px; padding: 30px; position: relative; }
+        .modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+        .modal-title { color: var(--accent-green); font-size: 1.2rem; margin-bottom: 5px; text-transform: uppercase; }
+        .modal-subtitle { color: var(--accent-blue); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--border-color-left); padding-bottom: 6px; }
+        .modal-bullets { list-style: none; }
+        .modal-bullets li { color: #e2e8f0; margin-bottom: 12px; font-size: 0.92rem; position: relative; padding-left: 18px; }
+        .modal-bullets li::before { content: "▪"; position: absolute; left: 0; color: var(--accent-blue); }
+
+        @media (max-width: 1000px) {
+            .dashboard-wrapper { flex-direction: column; height: auto; overflow: auto; }
+            .left-resume-pane, .right-diagnostics-pane { width: 100%; height: auto; overflow: visible; }
+            html, body { height: auto; overflow: auto; }
+        }
+
+.emergency-flash {
+    animation: policeFlash 0.5s ease-in-out 6 alternate !important;
+}
+
+@keyframes policeFlash {
+    0% {
+        border-color: #ef4444 !important;
+        box-shadow: 0 0 25px rgba(239, 68, 68, 0.8) !important;
+    }
+    100% {
+        border-color: #38bdf8 !important;
+        box-shadow: 0 0 25px rgba(56, 189, 248, 0.8) !important;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+<div class="dashboard-wrapper">
+
+    <!-- ==================== LEFT RESUME PANE ==================== -->
+    <div class="left-resume-pane">
+        <header class="resume-header">
+            <h1>Carl B.</h1>
+            <h2>Senior Process Technician & Molding Supervisor</h2>
+            <p>Over 20 years of experience optimizing plastic injection molding operations, programming multi-axis robotics, and directing high-volume production schedules across automotive and medical manufacturing profiles.</p>
+            <div class="cta-buttons">
+    <a href="#deploy-form" class="btn-resume btn-contact" onclick="window.parent.postMessage('triggerFlash', '*'); if(window.parent.frames){for(var i=0;i<window.parent.frames.length;i++){window.parent.frames[i].postMessage('triggerFlash','*');}}">Contact Me</a>Use form on right side of page.
+</div>
+
+        </header>
+
+        <div class="panel-card">
+            <h3 class="section-title-left">🛠️ Technical Skill Matrix</h3>
+            <div class="skills-grid">
+                <div class="skill-column">
+                    <h4>Process Engineering</h4>
+                    <div class="tag-group">
+                        <span class="tag interactive-tag" onclick="openPopup('decoupled')">Decoupled Molding</span>
+                        <span class="tag interactive-tag" onclick="openPopup('custom')">Custom Molding</span>
+                        <span class="tag interactive-tag" onclick="openPopup('gas')">Gas-Assisted Molding</span>
+                        <span class="tag interactive-tag" onclick="openPopup('sequential')">Sequential Valve Gate</span>
+                        <span class="tag interactive-tag" onclick="openPopup('optimization')">Process Optimization</span>
+                        <span class="tag interactive-tag" onclick="openPopup('research')">Research & Analysis</span>
+                    </div>
+                </div>
+                <div class="skill-column">
+                    <h4>Machinery & Robotics</h4>
+                    <div class="tag-group">
+                        <span class="tag">85T - 4000T Presses</span>
+                        <span class="tag">Cincinnati / Van Dorn</span>
+                        <span class="tag">Mitsubishi / Toyo</span>
+                        <span class="tag">Arburg / Engel / Kawaguchi</span>
+                        <span class="tag">Convertible H/V Presses</span>
+                        <span class="tag">Conair / Wittmann / Husky</span>
+                        <span class="tag">Nachi Safety-Orange 6-Axis</span>
+                        <span class="tag">FANUC / Star / Sepro / Tracer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-card">
+            <h3 class="section-title-left">📝 Career Timeline</h3>
+            <div class="timeline-stream">
+                <div class="timeline-block">
+                    <div class="job-head">
+                        <div class="title-text">Process Technician <span>at Omega Plastics</span></div>
+                        <span class="date-tag">2017 – 2020</span>
+                    </div>
+                    <ul class="bullet-stream">
+                        <li>Engineered custom molding processes for highly regulated clinical medical components and complex automotive solutions.</li>
+                        <li>Calibrated high-precision Cincinnati presses and ran specialized convertible shuttle vertical/horizontal overmolding cells.</li>
+                    </ul>
+                </div>
+                <div class="timeline-block">
+                    <div class="job-head">
+                        <div class="title-text">Molding Supervisor <span>at Flex-N-Gate Michigan</span></div>
+                        <span class="date-tag">2014 – 2017</span>
+                    </div>
+                    <ul class="bullet-stream">
+                        <li>Supervised floor operations focusing on heavy functional cladding and highly detailed interior structural trim panels.</li>
+                        <li>Orchestrated cell automation utilizing 3-axis Star gantries alongside heavy 6-axis safety-orange Nachi articulated systems.</li>
+                    </ul>
+                </div>
+                <div class="timeline-block">
+                    <div class="job-head">
+                        <div class="title-text">Unified Shop Floor History <span>(Technician & Supervisor)</span></div>
+                        <span class="date-tag">1998 – 2013</span>
+                    </div>
+                    <ul class="bullet-stream">
+                        <li><strong>Kostal Kontakt Systeme</strong>: Controlled dense electronic connector manufacturing cycles using close-tolerance Arburg and Engel machinery.</li>
+                        <li><strong>Consolidated Metco</strong>: Configured high-tonnage cell arrays utilizing Mitsubishi, Cincinnati, Van Dorn, and Toyo systems up to 4000T.</li>
+                        <li><strong>NYX / Lear / Plastech / Chivas</strong>: Directed shift teams and managed automated cells running articulated and top-entry FANUC robotics.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== RIGHT DIAGNOSTICS PANE ==================== -->
+    <div class="right-diagnostics-pane">
+        
+        <!-- RESTORED EXACT UNTOUCHED ORIGINAL HIGH-IMPACT REPAIR HEADER -->
+        <header class="diagnostics-header">
+            <h1 class="flash-title">Troubleshooting Diagnostics & Repair</h1>
+            <p class="subtitle">Look, if your gear is fried, glitching, or you think it's just straight
+            trash, skip the nonsense and <span class="highlight">just
+            fix the issue.</span> If You need on-demand tech fixes or hardware tech'ed out? I'm 
+            your guy.</p>
+        </header>
+
+        <!-- Scrolling Technical Banner Loop -->
+<div class="terminal-banner" style="overflow: hidden; white-space: nowrap; display: flex; align-items: center;">
+    <div style="display: inline-block; padding-left: 100%; animation: marqueeLoop 8s linear infinite; font-family: 'Courier New', Courier, monospace;">
+       &gt;  MICRO CONTROLLERS ARE YOUR BEST FRIEND 	&gt;		&gt; MICRO CONTROLLERS ARE YOUR BEST FRIEND &gt;			
+    </div>
+</div>
+
+<!-- Paste this single animation style block right inside your <style> section if it isn't there already -->
+<style>
+@keyframes marqueeLoop {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-98%, 0, 0); }
+}
+</style>
+
+            <!-- Service 1 -->
+            <div class="card">
+    <h3>"Unfixable" Appliance Recovery</h3>
+    <p>Fixing high-end vacuums, mixers, or espresso machines where an internal electrical control board or motor thermal fuse blew. I dig up part schematics via online parts clinics and source hard-to-find components or legacy replacement boards from eBay to swap them out and beat manufacturer locks.</p>
+    <div class="tech-tags"><span class="tag">Board Swaps</span><span class="tag">Schematic Lookups</span><span class="tag">Component Sourcing</span></div>
+</div>
+
+            <!-- Service 2 -->
+            <div class="card">
+    <h3>Local Network Tuning & IoT Lockdown</h3>
+    <p>Hardening home and facility networks against insecure, intrusive consumer IoT gear. I restructure local routing to kill outbound corporate data telemetry ("calling home"), configure bulletproof local-only static communication parameters, and force equipment to operate strictly within your custom local perimeter—no cloud dependencies, no unexpected updates, just pure standalone execution.</p>
+    <div class="tech-tags"><span class="tag">Local-Only Isolation</span><span class="tag">Telemetry Stripping</span><span class="tag">Network Hardening</span></div>
+</div>
+
+            <!-- Service 3 -->
+            <div class="card">
+    <h3>Custom Hardware & Component Hacks</h3>
+    <p>Bypassing fried proprietary logic boards by hard-soldering industrial relays, manual overrides, and solid-state power components directly into existing wiring harnesses. Machining custom metal reinforcement brackets to fix structural chassis faults without waiting on backordered factory spares.</p>
+    <div class="tech-tags"><span class="tag">Circuit Hacking</span><span class="tag">Relay Overrides</span><span class="tag">Metal Machining</span></div>
+</div>
+
+            <!-- Service 4 -->
+            <div class="card">
+                <h3>The "Fixed Today" Emergency Rescue</h3>
+                <p>Bailing you out of sudden, annoying crises—like a jammed garage door mechanism, a frozen smart lock, or a critical laptop that suddenly won't boot before a big presentation.</p>
+            </div>
+
+            <!-- Service 5: Relay Matrix Networks -->
+            <div class="card">
+                <h3>Multi-Channel Power Arrays</h3>
+                <p>Designing localized automation grids to switch high-draw equipment. Utilizing non-blocking WebSockets connections to feed real-time hardware status changes cleanly to browser clients.</p>
+                <div class="tech-tags">
+                    <span class="tag">ESP32/8266</span><span class="tag">WebSockets</span><span class="tag">Relay Isolation</span>
+                </div>
+            </div>
+
+            <!-- Service 6: Asynchronous Clock Infrastructure -->
+            <div class="card">
+                <h3>Network-Synced Time Terminals</h3>
+                <p>Deploying standalone physical wall clock matrices driven by dedicated I2C hardware (DS3231). Integrated via optimized async string delivery to stop interface lag over home networks.</p>
+                <div class="tech-tags">
+                    <span class="tag">DS3231 RTC</span><span class="tag">I2C Protocol</span><span class="tag">AsyncWebServer</span>
+                </div>
+            </div>
+
+            <!-- Service 7: Multi-Core Thread Controls -->
+            <div class="card">
+                <h3>Thread-Safe FreeRTOS Thermostats</h3>
+                <p>Engineering resilient dual-core environment automation systems. Programmed with FreeRTOS Mutex guards to guarantee mechanical tracking stability during heavy background log requests.</p>
+                <div class="tech-tags">
+                    <span class="tag">FreeRTOS Tasks</span><span class="tag">Mutex Binary Locking</span><span class="tag">DHT Sensors</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container">
+    <!-- Web3Forms Endpoint Configuration -->
+    <form action="https://api.web3forms.com/submit" method="POST">
+
+        
+        <!-- Drop your unique Access Key token here -->
+        <input type="hidden" name="access_key" value="88d36199-f92f-41ae-a435-78bf9c1833fc">
+        
+        <!-- Anti-Spam Honeypot (Invisible to human users, completely blocks robot submissions) -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+        <div class="form-group">
+            <label for="name">Company Name & Operational Facility Location</label>
+            <input type="text" id="name" name="Company Name / Client" required placeholder=" Name ">
+        </div>
+        
+        <div class="form-group">
+            <label for="contact">Direct Line to the Lead Shift Supervisor / Floor Manager</label>
+            <input type="tel" id="contact" name="Direct Phone Line" required placeholder="(313) 555-0123">
+        </div>
+        
+        <div class="form-group">
+            <label for="hardware">Hardware Identity (Make, Model, Serial / Board Revision)</label>
+            <input type="text" id="hardware" name="Hardware Profile" required placeholder="Whirlpool Cabrio Washing Machine / Samsung 65-Inch LED Display">
+        </div>
+        
+        <div class="form-group">
+            <label for="issue">Isolate the Failure (Flash Codes, Relay Clicking, Total Loss Symptoms)</label>
+            <textarea id="issue" name="Breakdown Diagnostics Log" rows="32" required placeholder="Washing machine drops power midway through cycle, or TV clicks continuously but screen stays completely dark...  
+			
+If you are an employer reaching out, Leave message here; I will call back at phone number provided..."></textarea>
+        </div>
+        
+        <!-- Redirects back to your page with a clean browser alert upon success -->
+        <input type="hidden" name="redirect" value="localhost">
+
+        <button type="submit">Deploy Asset / Isolate Fault</button>
+    </form>
+</div>
+
+    </div>
+
+</div> <!-- Close Master Dashboard Wrapper -->
+
+<div id="popupModal" class="modal-overlay" onclick="closePopupOutside(event)">
+    <div class="modal-card">
+        <button class="modal-close" onclick="closePopup()">&times;</button>
+        <div id="modalTitle" class="modal-title">Category Title</div>
+        <div id="modalSubtitle" class="modal-subtitle">Operational Deep Dive</div>
+        <ul id="modalContent" class="modal-bullets"></ul>
+    </div>
+</div>
+<script>
+    const processData = {
+        custom: {
+            title: "Custom Molding",
+            subtitle: "The Operational Framework",
+            bullets: [
+                "<strong>Tooling Strategy:</strong> Engineers determine mold geometry, cooling line layouts, and material options based on target industrial component configurations.",
+                "<strong>Machine Matching:</strong> Assignments calibrate specific clamp limits spanning precise 85-ton prototype tooling up to massive 4000-ton automotive presses."
+            ]
+        },
+        decoupled: {
+            title: "Decoupled Molding",
+            subtitle: "The Core Injection Process",
+            bullets: [
+                "<strong>Stage 1 Volumetric Fill:</strong> Injection screw drives molten plastic at high velocity to fill 95-98% of the tool cavity before hitting pressure transitions.",
+                "<strong>Transfer Metric:</strong> High-speed velocity control drops instantly via physical cavity pressure transducers or position sensors.",
+                "<strong>Stage 2 Pack & Hold:</strong> Pure pressure loops kick in to tightly finish packing out remaining density requirements, safely stopping internal void anomalies."
+            ]
+        },
+        gas: {
+            title: "Gas-Assisted Molding",
+            subtitle: "Internal Coring & Thick-Wall Optimization",
+            bullets: [
+                "<strong>Nitrogen Injection:</strong> Regulated high-pressure nitrogen gas is injected right behind the melt stream center, coring out heavy cross-sections cleanly.",
+                "<strong>Mass and Defect Control:</strong> Eliminates structural weight and cycle times while forcing the skin out flat to stop cooling sinks on heavy plastic trim."
+            ]
+        },
+        sequential: {
+            title: "Sequential Valve Gate",
+            subtitle: "Flow & Aesthetic Management",
+            bullets: [
+                "<strong>Timed Pin Controls:</strong> Pneumatic or hydraulic valve pins open specific runners sequentially to steer the melt front smoothly across long paths.",
+                "<strong>Blemish Elimination:</strong> Eliminates cosmetic weld lines or knit marks entirely, creating high-strength structural cladding walls."
+            ]
+        },
+        optimization: {
+            title: "Process Optimization",
+            subtitle: "Stability & Efficiency",
+            bullets: [
+                "<strong>Curve Matching:</strong> Monitors tool parameters against optimal RJG curve limits to mimic master parameters shift after shift.",
+                "<strong>Automation Path Tracking:</strong> Syncs top-entry and multi-axis sprue pickers to safely strip finished parts without causing surface scratches."
+            ]
+        },
+        research: {
+            title: "Research & Analysis",
+            subtitle: "Continuous Improvement",
+            bullets: [
+                "<strong>Diagnostic Root Cause:</strong> Traces historical parameter logs to troubleshoot flashing issues or pressure drop trends.",
+                "<strong>Data Verification Log:</strong> Logs operational windows to establish resilient parameters for unattended production runs."
+            ]
+        }
+    };
+
+// --- MODAL WINDOW ENGINE ---
+const modal = document.getElementById('popupModal');
+const mTitle = document.getElementById('modalTitle');
+const mSubtitle = document.getElementById('modalSubtitle');
+const mContent = document.getElementById('modalContent');
+
+function openPopup(key) {
+    const data = processData[key];
+    if (!data) return;
+    mTitle.innerText = data.title;
+    mSubtitle.innerText = data.subtitle;
+    mContent.innerHTML = data.bullets.map(b => `<li>${b}</li>`).join('');
+    modal.classList.add('active');
+}
+
+function closePopup() { 
+    modal.classList.remove('active'); 
+}
+
+function closePopupOutside(e) { 
+    if (e.target === modal) closePopup(); 
+}
+
+
+// --- EMERGENCY FLASH ENGINE ---
+function flashFormBorder() {
+    var formPanel = document.querySelector('.form-container');
+    
+    if (formPanel) {
+        formPanel.style.transition = "all 0.15s ease-in-out";
+        
+        formPanel.style.borderColor = "#ef4444";
+        formPanel.style.boxShadow = "0 0 25px rgba(239, 68, 68, 0.9)";
+        
+        setTimeout(function() {
+            formPanel.style.borderColor = "#38bdf8";
+            formPanel.style.boxShadow = "0 0 25px rgba(56, 189, 248, 0.9)";
+        }, 300);
+        
+        setTimeout(function() {
+            formPanel.style.borderColor = "#ef4444";
+            formPanel.style.boxShadow = "0 0 25px rgba(239, 68, 68, 0.9)";
+        }, 600);
+
+        setTimeout(function() {
+            formPanel.style.borderColor = "#38bdf8";
+            formPanel.style.boxShadow = "0 0 25px rgba(56, 189, 248, 0.9)";
+        }, 900);
+        
+        setTimeout(function() {
+            formPanel.style.borderColor = "var(--border-color)";
+            formPanel.style.boxShadow = "none";
+        }, 2500);
+    }
+}
+
+// Background interceptor that catches the cross-frame signal safely
+window.addEventListener('message', function(event) {
+    if (event.data === 'triggerFlash') {
+        flashFormBorder();
+    }
+});
+</script>
+
+
+
+</body>
+</html>
