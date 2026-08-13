@@ -515,12 +515,272 @@
             your guy.</p>
         </header>
 
-        <!-- Scrolling Technical Banner Loop -->
-<div class="terminal-banner" style="overflow: hidden; white-space: nowrap; display: flex; align-items: center;">
-    <div style="display: inline-block; padding-left: 100%; animation: marqueeLoop 78s linear infinite; font-family: 'Courier New', Courier, monospace;">
-       <strong>&gt;  Backed by over 20 years of hard-nosed industrial manufacturing experience, I am the elite field specialist who breakdowns, bypasses and force broken hardware back online when thiught to be impossible. If your critical electronics broke, I cut straight through the isolation, apply the fix, and restore to a working state. 	&gt;		&gt; MICRO CONTROLLERS ARE YOUR BEST FRIEND &gt;					&gt;  Backed by over 20 years of hard-nosed industrial manufacturing experience, I am the elite field specialist who breakdowns, bypasses and force broken hardware back online when thiught to be impossible. If your critical electronics broke, I cut straight through the isolation, apply the fix, and restore to a working state. 	&gt;</strong>
+<!-- Interactive ERASE System Sandbox View -->
+<style>
+    /* Crucial Matrix Grid Physics */
+    .erase-resume-container {
+        background-color: #050505;
+        border: 1px solid #222;
+        border-radius: 4px;
+        font-family: 'Courier New', Courier, monospace;
+        overflow: hidden;
+        margin: 20px 0;
+    }
+    
+    .resume-top-half, .resume-bottom-half {
+        height: 180px;
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .resume-top-half {
+        border-bottom: 1px solid #111;
+        background: radial-gradient(circle, #0d0d0d 0%, #050505 100%);
+    }
+
+    /* Fixed positioning for Dialogue Text at the very top */
+    .resume-dialogue {
+        position: absolute;
+        top: 20px; /* Locked to the top of the container */
+        left: 0;
+        width: 100%;
+        color: #888;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-align: center;
+        transition: all 0.2s ease-in-out;
+        z-index: 2;
+    }
+
+    /* Active Animation States */
+    .resume-dad-active .resume-dialogue {
+        animation: resumeChop 0.4s infinite;
+        transform: scale(0.85);
+    }
+
+    .resume-son-active .resume-dialogue {
+        color: #fff;
+        transform: scale(1.1);
+        text-shadow: 0 0 15px #ff0055;
+    }
+
+    /* Precise positioning for the ERASE title 1/4 of the way down *below* the text */
+    .resume-erase-title {
+        position: absolute;
+        top: 60%; /* Pushed down safely away from the text line */
+        left: 50%;
+        transform: translate(-50%, -50%); /* Keeps it perfectly centered horizontally */
+        font-size: 4.5rem;
+        font-weight: 900;
+        letter-spacing: 8px;
+        display: none;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    .resume-erasing .resume-erase-title {
+        display: block;
+        animation: resumeColorShift 0.4s infinite linear, resumeShake 0.12s infinite;
+    }
+
+    .resume-matrix-box {
+        width: 100%;
+        height: 100%;
+        padding: 12px;
+        font-size: 11px;
+        line-height: 1.3;
+        word-break: break-all;
+        color: #1aff1a;
+        opacity: 0.75;
+    }
+
+    .resume-trigger-panel {
+        background: #111;
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #222;
+    }
+
+    .resume-trigger-btn {
+        background: #151515;
+        border: 1px solid #ff0055;
+        color: #fff;
+        padding: 6px 16px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 11px;
+        font-family: inherit;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: all 0.2s;
+    }
+    .resume-trigger-btn:hover {
+        background: #ff0055;
+        box-shadow: 0 0 10px rgba(255, 0, 85, 0.6);
+    }
+
+    /* Animation Timelines */
+    @keyframes resumeColorShift {
+        0% { color: #0026ff; text-shadow: 0 0 10px #0026ff; }
+        25% { color: #ff003c; text-shadow: 0 0 10px #ff003c; }
+        50% { color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
+        75% { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+        100% { color: #0026ff; text-shadow: 0 0 10px #0026ff; }
+    }
+
+    @keyframes resumeChop {
+        0%, 100% { transform: scale(0.85) translate(0, 0); }
+        50% { transform: scale(0.83) translate(-2px, 1px); opacity: 0.9; }
+    }
+
+    @keyframes resumeShake {
+        0% { transform: translate(1px, 1px); }
+        50% { transform: translate(-2px, -1px); }
+        100% { transform: translate(1px, -1px); }
+    }
+</style>
+
+<div class="erase-resume-container resume-dad-active" id="resumeCore">
+    <!-- Top Display Panel -->
+    <div class="resume-top-half" id="resumeTop">
+        <div class="resume-dialogue" id="resumeText">
+            Dad: "Damn boy... what ain't you got?"
+        </div>
+        <div class="resume-erase-title">ERASE</div>
+    </div>
+
+    <!-- Bottom Terminal Output Grid -->
+    <div class="resume-bottom-half">
+        <div class="resume-matrix-box" id="resumeMatrix"></div>
+    </div>
+
+    <!-- Interactive Execution Bar -->
+    <div class="resume-trigger-panel">
+        <span style="color: #666; font-size: 11px;">SYS_STATUS: ACTIVE_LOOP</span>
+        <button class="resume-trigger-btn" onclick="runResumeErase()">Drop the Erase</button>
     </div>
 </div>
+
+<script>
+    const resMatrix = document.getElementById('resumeMatrix');
+    const resText = document.getElementById('resumeText');
+    const resTop = document.getElementById('resumeTop');
+    const resCore = document.getElementById('resumeCore');
+    let resLoop;
+
+    function startResumeBinary() {
+        clearInterval(resLoop);
+        resLoop = setInterval(() => {
+            let bin = '';
+            for(let i=0; i<6; i++) {
+                bin += Math.round(Math.random()) + ' ';
+            }
+            resMatrix.innerHTML = (bin + ' &nbsp; ' + resMatrix.innerHTML).substring(0, 600);
+        }, 150);
+    }
+
+    startResumeBinary();
+
+    function runResumeErase() {
+        resCore.classList.remove('resume-dad-active');
+        resCore.classList.add('resume-son-active');
+        resTop.classList.add('resume-erasing');
+        resText.innerHTML = 'Son: "EVERYTHING!!!"';
+
+        clearInterval(resLoop);
+        resMatrix.style.color = '#ff0055';
+        
+        resLoop = setInterval(() => {
+            let wipe = '';
+            for(let i=0; i<30; i++) { wipe += 'FF '; }
+            resMatrix.innerHTML = (wipe + '<br>' + resMatrix.innerHTML).substring(0, 1500);
+        }, 40);
+
+        setTimeout(() => {
+            resTop.classList.remove('resume-erasing');
+            resCore.classList.remove('resume-son-active');
+            resCore.classList.add('resume-dad-active');
+            resText.innerHTML = 'Dad: "Damn boy... what ain\'t you got?"';
+            resMatrix.style.color = '#1aff1a';
+            resMatrix.innerHTML = '';
+            startResumeBinary();
+        }, 3500);
+    }
+</script>
+
+
+<div class="erase-resume-container resume-dad-active" id="resumeCore">
+    <!-- Top Display Panel -->
+    <div class="resume-top-half" id="resumeTop">
+        <div class="resume-dialogue" id="resumeText">
+            Dad: "Damn boy... what ain't you got?"
+        </div>
+        <div class="resume-erase-title">ERASE</div>
+    </div>
+
+    <!-- Bottom Terminal Output Grid -->
+    <div class="resume-bottom-half">
+        <div class="resume-matrix-box" id="resumeMatrix"></div>
+    </div>
+
+    <!-- Interactive Execution Bar -->
+    <div class="resume-trigger-panel">
+        <span style="color: #666; font-size: 11px;">SYS_STATUS: ACTIVE_LOOP</span>
+        <button class="resume-trigger-btn" onclick="runResumeErase()">Execute Erase</button>
+    </div>
+</div>
+
+<script>
+    const resMatrix = document.getElementById('resumeMatrix');
+    const resText = document.getElementById('resumeText');
+    const resTop = document.getElementById('resumeTop');
+    const resCore = document.getElementById('resumeCore');
+    let resLoop;
+
+    function startResumeBinary() {
+        clearInterval(resLoop);
+        resLoop = setInterval(() => {
+            let bin = '';
+            for(let i=0; i<6; i++) {
+                bin += Math.round(Math.random()) + ' ';
+            }
+            resMatrix.innerHTML = (bin + ' &nbsp; ' + resMatrix.innerHTML).substring(0, 600);
+        }, 150);
+    }
+
+    startResumeBinary();
+
+    function runResumeErase() {
+        resCore.classList.remove('resume-dad-active');
+        resCore.classList.add('resume-son-active');
+        resTop.classList.add('resume-erasing');
+        resText.innerHTML = 'Son: "EVERYTHING!!!"';
+
+        clearInterval(resLoop);
+        resMatrix.style.color = '#ff0055';
+        
+        resLoop = setInterval(() => {
+            let wipe = '';
+            for(let i=0; i<30; i++) { wipe += 'FF '; }
+            resMatrix.innerHTML = (wipe + '<br>' + resMatrix.innerHTML).substring(0, 1500);
+        }, 40);
+
+        setTimeout(() => {
+            resTop.classList.remove('resume-erasing');
+            resCore.classList.remove('resume-son-active');
+            resCore.classList.add('resume-dad-active');
+            resText.innerHTML = 'Dad: "Damn boy... what ain\'t you got?"';
+            resMatrix.style.color = '#1aff1a';
+            resMatrix.innerHTML = '';
+            startResumeBinary();
+        }, 3500);
+    }
+</script>
+
 
 <!-- Paste this single animation style block right inside your <style> section if it isn't there already -->
 <style>
@@ -584,6 +844,8 @@
                 </div>
             </div>
         </div>
+
+	
 
         <div class="form-container">
     <!-- Web3Forms Endpoint Configuration -->
