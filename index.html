@@ -12,6 +12,7 @@
             --border-color: #1f2937;
             --accent-blue: #38bdf8;
             --accent-green: #22c55e;
+            --accent-orange: #f97316;
             --bg-color: #0b111e;
             --card-bg: #141b2b;
             --text-main: #ffffff;
@@ -31,38 +32,34 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            overflow: hidden; /* Pins layouts to enforce a single scrolling container */
+            overflow: hidden; 
         }
 
-        /* Master Dashboard Container Layout */
         .dashboard-wrapper {
             display: flex;
             width: 100vw;
             height: 100vh;
         }
 
-        /* --- LEFT SPLIT COLUMN: INJECTION MOLDING RESUME --- */
-        .left-resume-pane {
+        .left-resume-pane, .right-diagnostics-pane {
             width: 50%;
             height: 100%;
             overflow-y: auto;
             padding: 2rem 1.5rem;
-            border-right: 2px solid var(--border-color);
-            background: linear-gradient(180deg, #0b111e 0%, #0d1527 100%);
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
-        /* --- RIGHT SPLIT COLUMN: DIAGNOSTICS & REPAIR --- */
-        .right-diagnostics-pane {
-            width: 50%;
-            height: 100%;
-            overflow-y: auto; /* Active scrolling window */
-            padding: 2rem;
-            background-color: var(--bg-dark);
+        .left-resume-pane {
+            border-right: 2px solid var(--border-color);
+            background: linear-gradient(180deg, #0b111e 0%, #0d1527 100%);
         }
-        /* Left Resume Pane Custom Card Structural Components */
+
+        .right-diagnostics-pane {
+            background: linear-gradient(180deg, #090d16 0%, #05080f 100%);
+        }
+
         .panel-card {
             background-color: var(--card-bg);
             padding: 2rem;
@@ -79,944 +76,181 @@
         }
 
         header.resume-header h1 { font-size: 2.2rem; margin-bottom: 8px; font-weight: 700; color: #fff; }
-        header.resume-header h2 { font-size: 1.15rem; color: var(--accent-green); font-weight: 500; margin-bottom: 20px; }
-        header.resume-header p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6; }
+        header.resume-header h2 { font-size: 1.15rem; color: var(--accent-green); font-weight: 500; margin-bottom: 12px; }
+        header.resume-header .tech-title { color: var(--accent-blue); }
+        header.resume-header p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
 
-        .cta-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .btn { text-decoration: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
-        .btn-primary { background-color: var(--accent-green); color: #0b111e; }
-        .btn-secondary { border: 1px solid var(--border-color-left); color: var(--text-main); background: rgba(255,255,255,0.02); }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.05); }
-
-        .section-title-left { font-size: 1.25rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color-left); padding-bottom: 0.5rem; color: var(--accent-blue); }
-        .skills-grid { display: flex; flex-direction: column; gap: 20px; }
-        .skill-column h4 { color: var(--accent-green); margin-bottom: 10px; font-size: 0.95rem; }
-        .tag-group { display: flex; flex-wrap: wrap; gap: 6px; }
-        .left-resume-pane .tag { background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-color-left); padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); transition: all 0.2s; }
-        .interactive-tag { cursor: pointer; border-color: rgba(56, 189, 248, 0.3) !important; }
-        .interactive-tag::after { content: " ↗"; font-size: 0.7rem; color: var(--accent-blue); }
-        .interactive-tag:hover { border-color: var(--accent-blue) !important; background: rgba(56, 189, 248, 0.05); color: #fff; }
-
-        .timeline-stream { display: flex; flex-direction: column; gap: 25px; }
-        .job-head { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-        .title-text { font-size: 1.05rem; font-weight: 600; color: #fff; }
-        .title-text span { color: var(--text-muted); font-weight: 400; font-size: 0.95rem; }
-        .date-tag { color: var(--accent-green); font-size: 0.8rem; background: rgba(34, 197, 150, 0.05); padding: 2px 10px; border-radius: 4px; border: 1px solid rgba(34, 197, 150, 0.15); }
-        .bullet-stream { list-style-type: none; }
-        .bullet-stream li { color: var(--text-muted); margin-bottom: 6px; position: relative; padding-left: 15px; font-size: 0.9rem; line-height: 1.5; }
-        .bullet-stream li::before { content: "•"; position: absolute; left: 0; color: var(--accent-green); }
-
-        /* --- RESTORED UNTOUCHED ORIGINAL DIAGNOSTICS & REPAIR ANIMATED HEADING ENGINE --- */
-        header.diagnostics-header {
-            background-color: var(--panel-bg);
-            padding: 3rem 1rem 2rem 1rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-            border-radius: 14px;
-            margin-bottom: 2rem;
-        }
-        header.diagnostics-header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
-        }
-        .flash-title {
-            font-size: 2.2rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 0 0 0.5rem 0;
-            font-family: 'Courier New', Courier, monospace;
-            animation: colorFlash 2s infinite alternate ease-in-out;
-        }
-        @keyframes colorFlash {
-            0% { color: #38bdf8; text-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-            33% { color: #f43f5e; text-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
-            66% { color: #eab308; text-shadow: 0 0 15px rgba(234, 179, 8, 0.4); }
-            100% { color: #22c55e; text-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
-        }
-        .subtitle {
-            color: #ffffff;
-            font-size: 1.25rem;
-            max-width: 650px;
-            margin: 1.5rem auto 0 auto;
-            line-height: 1.4;
-            font-weight: 800;
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color-left);
+            padding-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transform: rotate(-1deg);
-            background: linear-gradient(135deg, #ff0055 0%, #ffaa00 100%);
-            padding: 12px 20px;
-            border: 3px solid #000000;
-            box-shadow: 5px 5px 0px #000000;
-            border-radius: 4px;
-            text-shadow: 2px 2px 0px #000000;
         }
-        .highlight { color: #ffff00; text-decoration: underline; }
+        .section-title.orange { color: var(--accent-orange); }
+        .section-title.green { color: var(--accent-green); }
 
-        .terminal-banner {
-            background-color: #020617;
-            border: 1px solid #334155;
-            border-left: 4px solid var(--accent-green);
-            padding: 1rem;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            color: #34d399;
-            margin-bottom: 2rem;
-        }
-        .section-title-right {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-            color: var(--accent-blue);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        /* 2x2 Responsive Matrix Layout Grid for Services */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-        .card {
-            background-color: var(--panel-bg);
-            border-radius: 6px;
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease-in-out;
-            display: flex;
-            flex-direction: column;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-            border-color: #475569;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        }
-        .card h3 { margin-top: 0; color: var(--text-light); font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
-        .card h3::before { content: '⚡'; color: #eab308; }
-        .card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin: 0; }
-        .tech-tags { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 6px; }
-        .tech-tags .tag { font-family: monospace; font-size: 0.75rem; background: #070a12; border: 1px solid #243553; padding: 2px 8px; border-radius: 4px; color: var(--accent-blue); }
-
-        /* Form Styling */
-        .form-container { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 2rem; }
-        .form-group { margin-bottom: 1.25rem; }
-        label { display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; color: #94a3b8; }
-        input, textarea { width: 100%; padding: 0.75rem; background-color: #070a12; border: 1px solid #334155; border-radius: 4px; color: var(--text-light); font-size: 1rem; box-sizing: border-box; }
-        input:focus, textarea:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 5px rgba(56, 189, 248, 0.2); }
+        .bullet-group { margin-bottom: 1.5rem; }
+        .bullet-label { font-weight: 600; color: var(--text-main); font-size: 1rem; margin-bottom: 0.4rem; display: block; }
         
-        /* Modal Framework Overlay */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7,11,20,0.9); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-card { background: var(--popup-bg); border: 1px solid var(--accent-blue); border-radius: 14px; width: 90%; max-width: 520px; padding: 30px; position: relative; }
-        .modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
-        .modal-title { color: var(--accent-green); font-size: 1.2rem; margin-bottom: 5px; text-transform: uppercase; }
-        .modal-subtitle { color: var(--accent-blue); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--border-color-left); padding-bottom: 6px; }
-        .modal-bullets { list-style: none; }
-        .modal-bullets li { color: #e2e8f0; margin-bottom: 12px; font-size: 0.92rem; position: relative; padding-left: 18px; }
-        .modal-bullets li::before { content: "▪"; position: absolute; left: 0; color: var(--accent-blue); }
-
-        @media (max-width: 1000px) {
-            .dashboard-wrapper { flex-direction: column; height: auto; overflow: auto; }
-            .left-resume-pane, .right-diagnostics-pane { width: 100%; height: auto; overflow: visible; }
-            html, body { height: auto; overflow: auto; }
+        .bullet-list { list-style-type: none; padding-left: 0.5rem; }
+        .bullet-list li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0.4rem;
+            position: relative;
+            padding-left: 1.25rem;
         }
+        .bullet-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+        }
+        .left-resume-pane .bullet-list li::before { color: var(--accent-green); }
+        .right-diagnostics-pane .bullet-list li::before { color: var(--accent-blue); }
 
-.emergency-flash {
-    animation: policeFlash 0.5s ease-in-out 12 alternate !important;
-}
+        .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .skill-category h4 { color: var(--text-main); font-size: 0.95rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; }
+        .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .tag { background-color: var(--bg-dark); color: var(--text-muted); padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.85rem; border: 1px solid var(--border-color); }
+        .tag.highlight { border-color: var(--accent-orange); color: var(--text-main); }
 
-@keyframes policeFlash {
-    0% {
-        border-color: #ef4444 !important;
-        box-shadow: 0 0 25px rgba(239, 68, 68, 0.8) !important;
-    }
-    100% {
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 25px rgba(56, 189, 248, 0.8) !important;
-    }
-}
-
-
+        .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+        .timeline-item { position: relative; padding-left: 1.5rem; border-left: 2px solid var(--border-color); }
+        .timeline-item::before { content: ""; position: absolute; left: -6px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--accent-blue); }
+        .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+        .role-title { font-weight: 600; color: var(--text-main); font-size: 1.05rem; }
+        .company-duration { font-size: 0.9rem; color: var(--accent-green); text-align: right; }
     </style>
 </head>
 <body>
-<div class="dashboard-wrapper">
+    <div class="dashboard-wrapper">
+        <!-- --- LEFT SPLIT COLUMN: INJECTION MOLDING INTERVIEW CHEAT SHEET --- -->
+        <div class="left-resume-pane">
+            <header class="resume-header">
+                <h1>Pioneer Molding</h1>
+                <h2>Pioneer Plastics Inc.</h2>
+                <p>2295 Bart Ave, Warren, MI 48091<br>Interview Intelligence Sheet — August 19, 11:00 AM</p>
+            </header>
 
-    <!-- ==================== LEFT RESUME PANE ==================== -->
-    <div class="left-resume-pane">
-        <header class="resume-header">
-            <h1>Carl B.</h1>
-            <h2>Senior Process Technician & Molding Supervisor</h2>
-            <p>Over 20 years of experience optimizing plastic injection molding operations, programming multi-axis robotics, and directing high-volume production schedules across automotive and medical manufacturing profiles.</p>
-            <div class="cta-buttons">
-    <a href="#deploy-form" class="btn-resume btn-contact" onclick="window.parent.postMessage('triggerFlash', '*'); if(window.parent.frames){for(var i=0;i<window.parent.frames.length;i++){window.parent.frames[i].postMessage('triggerFlash','*');}}">Contact Me</a>Use form on right side of page.
-</div>
+            <div class="panel-card">
+                <h3 class="section-title">Core Company Overview</h3>
+                <div class="bullet-group"><span class="bullet-label">Business Classification</span><ul class="bullet-list"><li>Certified Minority and Woman-Owned business.</li></ul></div>
+                <div class="bullet-group"><span class="bullet-label">Core Specialty</span><ul class="bullet-list"><li>Custom plastic injection molding.</li><li>High-precision components manufacturing.</li><li>Subassemblies and final packaging production.</li><li>Multi-industry manufacturing support.</li></ul></div>
+                <div class="bullet-group"><span class="bullet-label">Facility Size</span><ul class="bullet-list"><li>40,000-square-foot production plant.</li><li>Equipped with industrial injection molding machinery.</li><li>Automated with production robotics.</li></ul></div>
+                <div class="bullet-group"><span class="bullet-label">Certifications</span><ul class="bullet-list"><li>Active ISO 9001:2015 registration.</li><li>Certified via Perry Johnson Registrars.</li><li>Standard industrial quality management compliance.</li></ul></div>
+                <div class="bullet-group"><span class="bullet-label">History & Workforce</span><ul class="bullet-list"><li>Established in 2002.</li><li>Operational at Bart Ave for over two decades.</li><li>Localized workforce of 11 to 50 employees.</li></ul></div>
+            </div>
 
-        </header>
+            <div class="panel-card">
+                <h3 class="section-title">Capabilities & Industrial Services</h3>
+                <div class="bullet-group"><span class="bullet-label">Production Range</span><ul class="bullet-list"><li>Wide press capacity range for variable product runs.</li><li>High-precision, close-tolerance smaller components.</li><li>Large, multi-cavity high-volume parts.</li></ul></div>
+                <div class="bullet-group"><span class="bullet-label">Secondary Operations</span><ul class="bullet-list"><li>Value-added part subassembly.</li><li>Component hot stamping.</li><li>Custom product kitting.</li></ul></div>
+                <div class="bullet-group"><span class="bullet-label">Collaborative Engineering</span><ul class="bullet-list"><li>Direct partnership with industrial clients.</li><li>Collaboration with original equipment manufacturers (OEMs).</li><li>Medical device prototyping and production.</li><li>Translation of early-stage concepts into final production molds.</li></ul></div>
+            </div>
+        </div>
+        <!-- --- RIGHT SPLIT COLUMN: DIAGNOSTICS & RESUME --- -->
+        <div class="right-diagnostics-pane">
+            <header class="resume-header">
+                <h1>Carl B.</h1>
+                <h2 class="tech-title">Senior Process Technician & Molding Supervisor</h2>
+                <p>Over 20 years of experience optimizing plastic injection molding operations, programming multi-axis robotics, and directing high-volume production schedules across automotive and medical manufacturing profiles.</p>
+            </header>
 
-        <div class="panel-card">
-            <h3 class="section-title-left">🛠️ Technical Skill Matrix</h3>
-            <div class="skills-grid">
-                <div class="skill-column">
-                    <h4>Process Engineering</h4>
-                    <div class="tag-group">
-                        <span class="tag interactive-tag" onclick="openPopup('decoupled')">Decoupled Molding</span>
-                        <span class="tag interactive-tag" onclick="openPopup('custom')">Custom Molding</span>
-                        <span class="tag interactive-tag" onclick="openPopup('gas')">Gas-Assisted Molding</span>
-                        <span class="tag interactive-tag" onclick="openPopup('sequential')">Sequential Valve Gate</span>
-                        <span class="tag interactive-tag" onclick="openPopup('optimization')">Process Optimization</span>
-                        <span class="tag interactive-tag" onclick="openPopup('research')">Research & Analysis</span>
+            <div class="panel-card">
+                <h3 class="section-title">🛠️ Technical Skill Matrix</h3>
+                <div class="skill-grid">
+                    <div class="skill-category">
+                        <h4>Process Engineering</h4>
+                        <div class="tag-container">
+                            <span class="tag">Decoupled Molding</span><span class="tag">Custom Molding</span>
+                            <span class="tag">Gas-Assisted Molding</span><span class="tag">Sequential Valve Gate</span>
+                            <span class="tag">Process Optimization</span><span class="tag">Research & Analysis</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Machinery & Robotics</h4>
+                        <div class="tag-container">
+                            <span class="tag">85T - 4000T Presses</span><span class="tag">Cincinnati / Van Dorn</span>
+                            <span class="tag">Mitsubishi / Toyo</span><span class="tag">Arburg / Engel / Kawaguchi</span>
+                            <span class="tag">Convertible H/V Presses</span><span class="tag">Conair / Wittmann / Husky</span>
+                            <span class="tag highlight">Nachi 6-Axis Robotics</span><span class="tag">FANUC / Star / Sepro / Tracer</span>
+                        </div>
                     </div>
                 </div>
-                <div class="skill-column">
-                    <h4>Machinery & Robotics</h4>
-                    <div class="tag-group">
-                        <span class="tag">85T - 4000T Presses</span>
-                        <span class="tag">Cincinnati / Van Dorn</span>
-                        <span class="tag">Mitsubishi / Toyo</span>
-                        <span class="tag">Arburg / Engel / Kawaguchi</span>
-                        <span class="tag">Convertible H/V Presses</span>
-                        <span class="tag">Conair / Wittmann / Husky</span>
-                        <span class="tag">Nachi Safety-Orange 6-Axis</span>
-                        <span class="tag">FANUC / Star / Sepro / Tracer</span>
+            </div>
+
+            <div class="panel-card">
+                <h3 class="section-title">🛠️ Industrial Manufacturing & Robotics</h3>
+                <ul class="bullet-list">
+                    <li><strong>Machinery Expertise:</strong> High-tonnage presses ranging from 85T to 4000T, including brands like Cincinnati, Van Dorn, Mitsubishi, Toyo, Arburg, Engel, and Kawaguchi.</li>
+                    <li><strong>Robotics Programming:</strong> Multi-axis and articulated robotics, specifically 6-axis safety-orange FANUC and Nachi systems, as well as Star, Sepro, and Tracer gantries.</li>
+                    <li><strong>Past Leadership Roles:</strong> Worked as a Senior Process Technician and Molding Supervisor for major manufacturers, including Omega Plastics, Flex-N-Gate Michigan, Kostal Kontakt Systeme, and Lear.</li>
+                </ul>
+            </div>
+
+            <div class="panel-card">
+                
+            </div>
+
+            <div class="panel-card">
+                <h3 class="section-title green">🔎 Independent Professional Assessment</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">A hybrid industrial specialist and elite hands-on troubleshooter. Unique mix of high-stakes factory floor management and granular, "MacGyver-style" hardware engineering.</p>
+                <div class="bullet-group">
+                    <span class="bullet-label">➡️ Core Strengths</span>
+                    <ul class="bullet-list">
+                        <li><strong>Deep Industrial Credibility:</strong> Over 20 years of experience managing multi-ton presses (up to 4000T) and programming heavy 6-axis robotics for highly regulated industries. Bulletproof foundations in close-tolerance, high-volume production environment pressures.</li>
+                        
+                </div>
+                <div class="bullet-group" style="margin-top: 1rem;">
+                    <span class="bullet-label" style="color: var(--accent-orange);">⚠️ Operational Profile Characteristics</span>
+                    <ul class="bullet-list">
+                        <li><strong>High-Autonomy Execution:</strong> Background heavily favors a hard-nosed, direct-action approach optimized for decisive field deployment rather than hyper-rigid corporate bureaucracy.</li>
+                        
+            </div>
+        </div>
+            <div class="panel-card">
+                <h3 class="section-title">📝 Career Timeline</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="role-title">Process Technician</span>
+                            <span class="company-duration">Omega Plastics<br>2017 – 2020</span>
+                        </div>
+                        <ul class="bullet-list">
+                            <li>Engineered custom molding processes for highly regulated clinical medical components and complex automotive solutions.</li>
+                            <li>Calibrated high-precision Cincinnati presses and ran specialized convertible shuttle vertical/horizontal overmolding cells.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="role-title">Molding Supervisor</span>
+                            <span class="company-duration">Flex-N-Gate Michigan<br>2014 – 2017</span>
+                        </div>
+                        <ul class="bullet-list">
+                            <li>Supervised floor operations focusing on heavy functional cladding and highly detailed interior structural trim panels.</li>
+                            <li>Orchestrated cell automation utilizing 3-axis Star gantries alongside heavy 6-axis safety-orange Nachi articulated systems.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="role-title">Unified Shop Floor History</span>
+                            <span class="company-duration">1998 – 2013</span>
+                        </div>
+                        <ul class="bullet-list">
+                            <li><strong>Kostal Kontakt Systeme:</strong> Controlled dense electronic connector manufacturing cycles using close-tolerance Arburg and Engel machinery.</li>
+                            <li><strong>Consolidated Metco:</strong> Configured high-tonnage cell arrays utilizing Mitsubishi, Cincinnati, Van Dorn, and Toyo systems up to 4000T.</li>
+                            <li><strong>NYX / Lear / Plastech / Chivas:</strong> Directed shift teams and managed automated cells running articulated and top-entry FANUC robotics.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </div>
-
-<meta charset="UTF-8">
-<style>
-  /* Industrial Tech Portfolio Component Styles */
-  .profile-container {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-    background-color: #0f141c;
-    color: #e2e8f0;
-    padding: 2.5rem;
-    border-radius: 12px;
-    border: 1px solid #2d3748;
-    max-width: 850px;
-    margin: 2rem auto;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  }
-
-  .profile-title {
-    color: #ff6b00; /* Safety Orange Accent */
-    font-size: 2.25rem;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    border-bottom: 2px solid #ff6b00;
-    padding-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .profile-lead {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: #cbd5e1;
-    margin-bottom: 2rem;
-  }
-
-  .profile-section-title {
-    color: #00ff66; /* Electric Green Accent */
-    font-size: 1.4rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .profile-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 2rem;
-  }
-
-  .profile-list-item {
-    margin-bottom: 1rem;
-    line-height: 1.5;
-    padding-left: 1.5rem;
-    position: relative;
-  }
-
-  .profile-list-item::before {
-    content: "▪";
-    position: absolute;
-    left: 0;
-    color: #ff6b00;
-  }
-
-  .profile-list-item strong {
-    color: #ffffff;
-  }
-
-  .profile-divider {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 255, 102, 0), rgba(0, 255, 102, 0.75), rgba(0, 255, 102, 0));
-    margin: 2.5rem 0;
-  }
-
-  .assessment-header {
-    color: #ffffff;
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .assessment-block {
-    background-color: #1a2332;
-    border-left: 4px solid #00ff66;
-    padding: 1.25rem;
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 2rem;
-    font-style: italic;
-    line-height: 1.6;
-    color: #94a3b8;
-  }
-
-  .sub-section-title {
-    color: #ff6b00;
-    font-size: 1.1rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .strength-item::before {
-    content: "⚡";
-    color: #00ff66;
-  }
-
-  .warning-item::before {
-    content: "⚠️";
-  }
-
-  .final-summary-box {
-    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-    border: 1px solid #4338ca;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 2rem;
-  }
-
-  .final-summary-box p {
-    margin: 0;
-    line-height: 1.6;
-  }
-</style>
-
-<div class="profile-container">
-  <h1 class="profile-title">Carl B.</h1>
-  <p class="profile-lead">Carl B. has over 20 years of experience in plastic injection molding, industrial robotics, and emergency hardware hacking.</p>
-
-  <h2 class="profile-section-title">🛠️ Industrial Manufacturing & Robotics Experience</h2>
-  <ul class="profile-list">
-    <li class="profile-list-item"><strong>Machinery Expertise:</strong> High-tonnage presses ranging from 85T to 4000T, including brands like Cincinnati, Van Dorn, Mitsubishi, Toyo, Arburg, Engel, and Kawaguchi.</li>
-    <li class="profile-list-item"><strong>Robotics Programming:</strong> Multi-axis and articulated robotics, specifically 6-axis safety-orange FANUC and Nachi systems, as well as Star, Sepro, and Tracer gantries.</li>
-    <li class="profile-list-item"><strong>Past Leadership Roles:</strong> Worked as a Senior Process Technician and Molding Supervisor for major manufacturers, including Omega Plastics, Flex-N-Gate Michigan, Kostal Kontakt Systeme, and Lear.</li>
-  </ul>
-
-  <h2 class="profile-section-title">🔧 Hands-On Tech & Hardware Hacking Skills</h2>
-  <ul class="profile-list">
-    <li class="profile-list-item"><strong>Appliance Recovery:</strong> Fixes high-end vacuums, mixers, and espresso machines by sourcing legacy parts or bypassing manufacturer locks.</li>
-    <li class="profile-list-item"><strong>Circuit & Hardware Hacks:</strong> Bypasses fried logic boards by hard-soldering industrial relays, manual overrides, and machining custom metal brackets.</li>
-    <li class="profile-list-item"><strong>IoT & Network Lockdown:</strong> Hardens local networks against intrusive IoT gear, strips data telemetry, and forces devices to operate locally without cloud dependencies.</li>
-    <li class="profile-list-item"><strong>Microcontroller Micro-Projects:</strong> Builds custom local automation grids, network-synced time terminals, and dual-core thermostats using ESP32/8266 chips, FreeRTOS, and DS3231 RTC hardware.</li>
-  </ul>
-
-  <hr class="profile-divider">
-
-  <h2 class="assessment-header">🔎 Independent Professional Assessment</h2>
-  <div class="assessment-block">
-    A rare breed—effectively a hybrid industrial specialist and elite hands-on troubleshooter. My portfolio reveals a unique mix of high-stakes factory floor management and granular, "MacGyver-style" hardware engineering.
-  </div>
-
-  <h3 class="sub-section-title">➡️ Core Strengths</h3>
-  <ul class="profile-list">
-    <li class="profile-list-item strength-item"><strong>Deep Industrial Credibility:</strong> With over 20 years of experience managing multi-ton presses (up to 4000T) and programming heavy 6-axis robotics for highly regulated industries like automotive and medical manufacturing, my operational foundations are bulletproof. I understand close-tolerance, high-volume production environment pressures.</li>
-    <li class="profile-list-item strength-item"><strong>Fearless Component-Level Pragmatism:</strong> Unlike modern IT or engineering specialists who rely strictly on software fixes or full-unit replacements, I excel at the physical layer. I cut through corporate manufacturer locks, hard-solder overrides, and manually machines custom hardware brackets to bypass supply chain delays.</li>
-    <li class="profile-list-item strength-item"><strong>Modern IoT & Embedded Savvy:</strong> I have bridged the gap between old-school industrial machinery and modern networked tech. My work with modern microcontrollers (ESP32/8266), thread-safe software architecture (FreeRTOS Mutex guards), and network protocols has a highly active, self-taught tech edge.</li>
-    <li class="profile-list-item strength-item"><strong>Privacy & SecOps Mindset:</strong> My ability to strip telemetry out of corporate consumer IoT gear and isolate local smart home routing indicates a strong grasp of modern network security and local-first computing ethics.</li>
-  </ul>
-
-  <h3 class="sub-section-title">⚠️ Operational Profile Characteristics</h3>
-  <ul class="profile-list">
-    <li class="profile-list-item warning-item"><strong>High-Autonomy Execution:</strong> My background heavily favors a hard-nosed, "skip the nonsense," direct action approach. While incredibly valuable in a critical downtime crisis, this high-speed style is optimized for decisive field deployment rather than hyper-rigid corporate bureaucracy.</li>
-    <li class="profile-list-item warning-item"><strong>Warranty-Defying Innovation:</strong> Solutions (soldering industrial relays directly onto proprietary logic boards, deploying custom firmware overrides) are highly effective crisis mitigation strategies designed to bypass supply chain lockouts.</li>
-  </ul>
-
-  <div class="final-summary-box">
-    <p><strong>🎯 Final Summary:</strong> I am exactly the operator required when a critical machine goes dark, replacement components are months away on backorder, and operational downtime carries steep financial penalties. I function as a force multiplier in emergency technical environments, offering highly adaptable automation and process engineering under pressure.</p>
-  </div>
-</div>
-
-
-
-        <div class="panel-card">
-            <h3 class="section-title-left">📝 Career Timeline</h3>
-            <div class="timeline-stream">
-                <div class="timeline-block">
-                    <div class="job-head">
-                        <div class="title-text">Process Technician <span>at Omega Plastics</span></div>
-                        <span class="date-tag">2017 – 2020</span>
-                    </div>
-                    <ul class="bullet-stream">
-                        <li>Engineered custom molding processes for highly regulated clinical medical components and complex automotive solutions.</li>
-                        <li>Calibrated high-precision Cincinnati presses and ran specialized convertible shuttle vertical/horizontal overmolding cells.</li>
-                    </ul>
-                </div>
-                <div class="timeline-block">
-                    <div class="job-head">
-                        <div class="title-text">Molding Supervisor <span>at Flex-N-Gate Michigan</span></div>
-                        <span class="date-tag">2014 – 2017</span>
-                    </div>
-                    <ul class="bullet-stream">
-                        <li>Supervised floor operations focusing on heavy functional cladding and highly detailed interior structural trim panels.</li>
-                        <li>Orchestrated cell automation utilizing 3-axis Star gantries alongside heavy 6-axis safety-orange Nachi articulated systems.</li>
-                    </ul>
-                </div>
-                <div class="timeline-block">
-                    <div class="job-head">
-                        <div class="title-text">Unified Shop Floor History <span>(Technician & Supervisor)</span></div>
-                        <span class="date-tag">1998 – 2013</span>
-                    </div>
-                    <ul class="bullet-stream">
-                        <li><strong>Kostal Kontakt Systeme</strong>: Controlled dense electronic connector manufacturing cycles using close-tolerance Arburg and Engel machinery.</li>
-                        <li><strong>Consolidated Metco</strong>: Configured high-tonnage cell arrays utilizing Mitsubishi, Cincinnati, Van Dorn, and Toyo systems up to 4000T.</li>
-                        <li><strong>NYX / Lear / Plastech / Chivas</strong>: Directed shift teams and managed automated cells running articulated and top-entry FANUC robotics.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== RIGHT DIAGNOSTICS PANE ==================== -->
-    <div class="right-diagnostics-pane">
-        
-        <!-- RESTORED EXACT UNTOUCHED ORIGINAL HIGH-IMPACT REPAIR HEADER -->
-        <header class="diagnostics-header">
-            <h1 class="flash-title">Troubleshooting Diagnostics & Repair</h1>
-            <p class="subtitle">Look, if your gear is fried, glitching, or you think it's just straight
-            trash, skip the nonsense and <span class="highlight">just
-            fix the issue.</span> If You need on-demand tech fixes or hardware tech'ed out? I'm 
-            your guy.</p>
-        </header>
-
-<!-- Interactive ERASE System Sandbox View -->
-<style>
-    /* Crucial Matrix Grid Physics */
-    .erase-resume-container {
-        background-color: #050505;
-        border: 1px solid #222;
-        border-radius: 4px;
-        font-family: 'Courier New', Courier, monospace;
-        overflow: hidden;
-        margin: 20px 0;
-    }
-    
-    .resume-top-half, .resume-bottom-half {
-        height: 180px;
-        position: relative;
-        overflow: hidden;
-        box-sizing: border-box;
-    }
-
-    .resume-top-half {
-        border-bottom: 1px solid #111;
-        background: radial-gradient(circle, #0d0d0d 0%, #050505 100%);
-    }
-
-    /* Fixed positioning for Dialogue Text at the very top */
-    .resume-dialogue {
-        position: absolute;
-        top: 20px; /* Locked to the top of the container */
-        left: 0;
-        width: 100%;
-        color: #888;
-        font-size: 1.1rem;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        text-align: center;
-        transition: all 0.2s ease-in-out;
-        z-index: 2;
-    }
-
-    /* Active Animation States */
-    .resume-dad-active .resume-dialogue {
-        animation: resumeChop 0.4s infinite;
-        transform: scale(0.85);
-    }
-
-    .resume-son-active .resume-dialogue {
-        color: #fff;
-        transform: scale(1.1);
-        text-shadow: 0 0 15px #ff0055;
-    }
-
-    /* Precise positioning for the ERASE title 1/4 of the way down *below* the text */
-    .resume-erase-title {
-        position: absolute;
-        top: 60%; /* Pushed down safely away from the text line */
-        left: 50%;
-        transform: translate(-50%, -50%); /* Keeps it perfectly centered horizontally */
-        font-size: 4.5rem;
-        font-weight: 900;
-        letter-spacing: 8px;
-        display: none;
-        pointer-events: none;
-        z-index: 5;
-    }
-
-    .resume-erasing .resume-erase-title {
-        display: block;
-        animation: resumeColorShift 0.4s infinite linear, resumeShake 0.12s infinite;
-    }
-
-    .resume-matrix-box {
-        width: 100%;
-        height: 100%;
-        padding: 12px;
-        font-size: 11px;
-        line-height: 1.3;
-        word-break: break-all;
-        color: #1aff1a;
-        opacity: 0.75;
-    }
-
-    .resume-trigger-panel {
-        background: #111;
-        padding: 8px 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid #222;
-    }
-
-    .resume-trigger-btn {
-        background: #151515;
-        border: 1px solid #ff0055;
-        color: #fff;
-        padding: 6px 16px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 11px;
-        font-family: inherit;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        transition: all 0.2s;
-    }
-    .resume-trigger-btn:hover {
-        background: #ff0055;
-        box-shadow: 0 0 10px rgba(255, 0, 85, 0.6);
-    }
-
-    /* Animation Timelines */
-    @keyframes resumeColorShift {
-        0% { color: #0026ff; text-shadow: 0 0 10px #0026ff; }
-        25% { color: #ff003c; text-shadow: 0 0 10px #ff003c; }
-        50% { color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
-        75% { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
-        100% { color: #0026ff; text-shadow: 0 0 10px #0026ff; }
-    }
-
-    @keyframes resumeChop {
-        0%, 100% { transform: scale(0.85) translate(0, 0); }
-        50% { transform: scale(0.83) translate(-2px, 1px); opacity: 0.9; }
-    }
-
-    @keyframes resumeShake {
-        0% { transform: translate(1px, 1px); }
-        50% { transform: translate(-2px, -1px); }
-        100% { transform: translate(1px, -1px); }
-    }
-</style>
-
-<div class="erase-resume-container resume-dad-active" id="resumeCore">
-    <!-- Top Display Panel -->
-    <div class="resume-top-half" id="resumeTop">
-        <div class="resume-dialogue" id="resumeText">
-            Dad: "Damn boy... what ain't you got?"
-        </div>
-        <div class="resume-erase-title">ERASE</div>
-    </div>
-
-    <!-- Bottom Terminal Output Grid -->
-    <div class="resume-bottom-half">
-        <div class="resume-matrix-box" id="resumeMatrix"></div>
-    </div>
-
-    <!-- Interactive Execution Bar -->
-    <div class="resume-trigger-panel">
-        <span style="color: #666; font-size: 11px;">SYS_STATUS: ACTIVE_LOOP</span>
-        <button class="resume-trigger-btn" onclick="runResumeErase()">Drop the Erase</button>
-    </div>
-</div>
-
-<script>
-    const resMatrix = document.getElementById('resumeMatrix');
-    const resText = document.getElementById('resumeText');
-    const resTop = document.getElementById('resumeTop');
-    const resCore = document.getElementById('resumeCore');
-    let resLoop;
-
-    function startResumeBinary() {
-        clearInterval(resLoop);
-        resLoop = setInterval(() => {
-            let bin = '';
-            for(let i=0; i<6; i++) {
-                bin += Math.round(Math.random()) + ' ';
-            }
-            resMatrix.innerHTML = (bin + ' &nbsp; ' + resMatrix.innerHTML).substring(0, 600);
-        }, 150);
-    }
-
-    startResumeBinary();
-
-    function runResumeErase() {
-        resCore.classList.remove('resume-dad-active');
-        resCore.classList.add('resume-son-active');
-        resTop.classList.add('resume-erasing');
-        resText.innerHTML = 'Son: "EVERYTHING!!!"';
-
-        clearInterval(resLoop);
-        resMatrix.style.color = '#ff0055';
-        
-        resLoop = setInterval(() => {
-            let wipe = '';
-            for(let i=0; i<30; i++) { wipe += 'FF '; }
-            resMatrix.innerHTML = (wipe + '<br>' + resMatrix.innerHTML).substring(0, 1500);
-        }, 40);
-
-        setTimeout(() => {
-            resTop.classList.remove('resume-erasing');
-            resCore.classList.remove('resume-son-active');
-            resCore.classList.add('resume-dad-active');
-            resText.innerHTML = 'Dad: "Damn boy... what ain\'t you got?"';
-            resMatrix.style.color = '#1aff1a';
-            resMatrix.innerHTML = '';
-            startResumeBinary();
-        }, 3500);
-    }
-</script>
-
-
-<div class="erase-resume-container resume-dad-active" id="resumeCore">
-    <!-- Top Display Panel -->
-    <div class="resume-top-half" id="resumeTop">
-        <div class="resume-dialogue" id="resumeText">
-            Dad: "Damn boy... what ain't you got?"
-        </div>
-        <div class="resume-erase-title">ERASE</div>
-    </div>
-
-    <!-- Bottom Terminal Output Grid -->
-    <div class="resume-bottom-half">
-        <div class="resume-matrix-box" id="resumeMatrix"></div>
-    </div>
-
-    <!-- Interactive Execution Bar -->
-    <div class="resume-trigger-panel">
-        <span style="color: #666; font-size: 11px;">SYS_STATUS: ACTIVE_LOOP</span>
-        <button class="resume-trigger-btn" onclick="runResumeErase()">Execute Erase</button>
-    </div>
-</div>
-
-<script>
-    const resMatrix = document.getElementById('resumeMatrix');
-    const resText = document.getElementById('resumeText');
-    const resTop = document.getElementById('resumeTop');
-    const resCore = document.getElementById('resumeCore');
-    let resLoop;
-
-    function startResumeBinary() {
-        clearInterval(resLoop);
-        resLoop = setInterval(() => {
-            let bin = '';
-            for(let i=0; i<6; i++) {
-                bin += Math.round(Math.random()) + ' ';
-            }
-            resMatrix.innerHTML = (bin + ' &nbsp; ' + resMatrix.innerHTML).substring(0, 600);
-        }, 150);
-    }
-
-    startResumeBinary();
-
-    function runResumeErase() {
-        resCore.classList.remove('resume-dad-active');
-        resCore.classList.add('resume-son-active');
-        resTop.classList.add('resume-erasing');
-        resText.innerHTML = 'Son: "EVERYTHING!!!"';
-
-        clearInterval(resLoop);
-        resMatrix.style.color = '#ff0055';
-        
-        resLoop = setInterval(() => {
-            let wipe = '';
-            for(let i=0; i<30; i++) { wipe += 'FF '; }
-            resMatrix.innerHTML = (wipe + '<br>' + resMatrix.innerHTML).substring(0, 1500);
-        }, 40);
-
-        setTimeout(() => {
-            resTop.classList.remove('resume-erasing');
-            resCore.classList.remove('resume-son-active');
-            resCore.classList.add('resume-dad-active');
-            resText.innerHTML = 'Dad: "Damn boy... what ain\'t you got?"';
-            resMatrix.style.color = '#1aff1a';
-            resMatrix.innerHTML = '';
-            startResumeBinary();
-        }, 3500);
-    }
-</script>
-
-
-<!-- Paste this single animation style block right inside your <style> section if it isn't there already -->
-<style>
-@keyframes marqueeLoop {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-98%, 0, 0); }
-}
-</style>
-
-            <!-- Service 1 -->
-            <div class="card">
-    <h3>"Unfixable" Appliance Recovery</h3>
-    <p>Fixing high-end vacuums, mixers, or espresso machines where an internal electrical control board or motor thermal fuse blew. I dig up part schematics via online parts clinics and source hard-to-find components or legacy replacement boards from eBay to swap them out and beat manufacturer locks.</p>
-    <div class="tech-tags"><span class="tag">Board Swaps</span><span class="tag">Schematic Lookups</span><span class="tag">Component Sourcing</span></div>
-</div>
-
-            <!-- Service 2 -->
-            <div class="card">
-    <h3>Local Network Tuning & IoT Lockdown</h3>
-    <p>Hardening home and facility networks against insecure, intrusive consumer IoT gear. I restructure local routing to kill outbound corporate data telemetry ("calling home"), configure bulletproof local-only static communication parameters, and force equipment to operate strictly within your custom local perimeter—no cloud dependencies, no unexpected updates, just pure standalone execution.</p>
-    <div class="tech-tags"><span class="tag">Local-Only Isolation</span><span class="tag">Telemetry Stripping</span><span class="tag">Network Hardening</span></div>
-</div>
-
-            <!-- Service 3 -->
-            <div class="card">
-    <h3>Custom Hardware & Component Hacks</h3>
-    <p>Bypassing fried proprietary logic boards by hard-soldering industrial relays, manual overrides, and solid-state power components directly into existing wiring harnesses. Machining custom metal reinforcement brackets to fix structural chassis faults without waiting on backordered factory spares.</p>
-    <div class="tech-tags"><span class="tag">Circuit Hacking</span><span class="tag">Relay Overrides</span><span class="tag">Metal Machining</span></div>
-</div>
-
-            <!-- Service 4 -->
-            <div class="card">
-                <h3>The "Fixed Today" Emergency Rescue</h3>
-                <p>Bailing you out of sudden, annoying crises—like a jammed garage door mechanism, a frozen smart lock, or a critical laptop that suddenly won't boot before a big presentation.</p>
-            </div>
-
-            <!-- Service 5: Relay Matrix Networks -->
-            <div class="card">
-                <h3>Multi-Channel Power Arrays</h3>
-                <p>Designing localized automation grids to switch high-draw equipment. Utilizing non-blocking WebSockets connections to feed real-time hardware status changes cleanly to browser clients.</p>
-                <div class="tech-tags">
-                    <span class="tag">ESP32/8266</span><span class="tag">WebSockets</span><span class="tag">Relay Isolation</span>
-                </div>
-            </div>
-
-            <!-- Service 6: Asynchronous Clock Infrastructure -->
-            <div class="card">
-                <h3>Network-Synced Time Terminals</h3>
-                <p>Deploying standalone physical wall clock matrices driven by dedicated I2C hardware (DS3231). Integrated via optimized async string delivery to stop interface lag over home networks.</p>
-                <div class="tech-tags">
-                    <span class="tag">DS3231 RTC</span><span class="tag">I2C Protocol</span><span class="tag">AsyncWebServer</span>
-                </div>
-            </div>
-
-            <!-- Service 7: Multi-Core Thread Controls -->
-            <div class="card">
-                <h3>Thread-Safe FreeRTOS Thermostats</h3>
-                <p>Engineering resilient dual-core environment automation systems. Programmed with FreeRTOS Mutex guards to guarantee mechanical tracking stability during heavy background log requests.</p>
-                <div class="tech-tags">
-                    <span class="tag">FreeRTOS Tasks</span><span class="tag">Mutex Binary Locking</span><span class="tag">DHT Sensors</span>
-                </div>
-            </div>
-        </div>
-
-	
-
-        <div class="form-container">
-    <!-- Web3Forms Endpoint Configuration -->
-    <form action="https://api.web3forms.com/submit" method="POST">
-
-        
-        <!-- Drop your unique Access Key token here -->
-        <input type="hidden" name="access_key" value="88d36199-f92f-41ae-a435-78bf9c1833fc">
-        
-        <!-- Anti-Spam Honeypot (Invisible to human users, completely blocks robot submissions) -->
-        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-
-        <div class="form-group">
-            <label for="name">Company Name & Operational Facility Location</label>
-            <input type="text" id="name" name="Company Name / Client" required placeholder=" Name ">
-        </div>
-        
-        <div class="form-group">
-            <label for="contact">Direct Line to the Lead Shift Supervisor / Floor Manager</label>
-            <input type="tel" id="contact" name="Direct Phone Line" required placeholder="(313) 555-0123">
-        </div>
-        
-        <div class="form-group">
-            <label for="hardware">Hardware Identity (Make, Model, Serial / Board Revision)</label>
-            <input type="text" id="hardware" name="Hardware Profile" required placeholder="Whirlpool Cabrio Washing Machine / Samsung 65-Inch LED Display">
-        </div>
-        
-        <div class="form-group">
-            <label for="issue">Isolate the Failure (Flash Codes, Relay Clicking, Total Loss Symptoms)</label>
-            <textarea id="issue" name="Breakdown Diagnostics Log" rows="16" required placeholder="Washing machine drops power midway through cycle, or TV clicks continuously but screen stays completely dark...  
-			
-If you are an employer reaching out, Leave message here; I will call back at phone number provided..."></textarea>
-        </div>
-        
-        <!-- Redirects back to your page with a clean browser alert upon success -->
-        <input type="hidden" name="redirect" value="localhost">
-
-        <button type="submit">Deploy Asset / Isolate Fault</button>
-    </form>
-</div>
-
-    </div>
-
-</div> <!-- Close Master Dashboard Wrapper -->
-
-<div id="popupModal" class="modal-overlay" onclick="closePopupOutside(event)">
-    <div class="modal-card">
-        <button class="modal-close" onclick="closePopup()">&times;</button>
-        <div id="modalTitle" class="modal-title">Category Title</div>
-        <div id="modalSubtitle" class="modal-subtitle">Operational Deep Dive</div>
-        <ul id="modalContent" class="modal-bullets"></ul>
-    </div>
-</div>
-<script>
-    const processData = {
-        custom: {
-            title: "Custom Molding",
-            subtitle: "The Operational Framework",
-            bullets: [
-                "<strong>Tooling Strategy:</strong> Engineers determine mold geometry, cooling line layouts, and material options based on target industrial component configurations.",
-                "<strong>Machine Matching:</strong> Assignments calibrate specific clamp limits spanning precise 85-ton prototype tooling up to massive 4000-ton automotive presses."
-            ]
-        },
-        decoupled: {
-            title: "Decoupled Molding",
-            subtitle: "The Core Injection Process",
-            bullets: [
-                "<strong>Stage 1 Volumetric Fill:</strong> Injection screw drives molten plastic at high velocity to fill 95-98% of the tool cavity before hitting pressure transitions.",
-                "<strong>Transfer Metric:</strong> High-speed velocity control drops instantly via physical cavity pressure transducers or position sensors.",
-                "<strong>Stage 2 Pack & Hold:</strong> Pure pressure loops kick in to tightly finish packing out remaining density requirements, safely stopping internal void anomalies."
-            ]
-        },
-        gas: {
-            title: "Gas-Assisted Molding",
-            subtitle: "Internal Coring & Thick-Wall Optimization",
-            bullets: [
-                "<strong>Nitrogen Injection:</strong> Regulated high-pressure nitrogen gas is injected right behind the melt stream center, coring out heavy cross-sections cleanly.",
-                "<strong>Mass and Defect Control:</strong> Eliminates structural weight and cycle times while forcing the skin out flat to stop cooling sinks on heavy plastic trim."
-            ]
-        },
-        sequential: {
-            title: "Sequential Valve Gate",
-            subtitle: "Flow & Aesthetic Management",
-            bullets: [
-                "<strong>Timed Pin Controls:</strong> Pneumatic or hydraulic valve pins open specific runners sequentially to steer the melt front smoothly across long paths.",
-                "<strong>Blemish Elimination:</strong> Eliminates cosmetic weld lines or knit marks entirely, creating high-strength structural cladding walls."
-            ]
-        },
-        optimization: {
-            title: "Process Optimization",
-            subtitle: "Stability & Efficiency",
-            bullets: [
-                "<strong>Curve Matching:</strong> Monitors tool parameters against optimal RJG curve limits to mimic master parameters shift after shift.",
-                "<strong>Automation Path Tracking:</strong> Syncs top-entry and multi-axis sprue pickers to safely strip finished parts without causing surface scratches."
-            ]
-        },
-        research: {
-            title: "Research & Analysis",
-            subtitle: "Continuous Improvement",
-            bullets: [
-                "<strong>Diagnostic Root Cause:</strong> Traces historical parameter logs to troubleshoot flashing issues or pressure drop trends.",
-                "<strong>Data Verification Log:</strong> Logs operational windows to establish resilient parameters for unattended production runs."
-            ]
-        }
-    };
-
-// --- MODAL WINDOW ENGINE ---
-const modal = document.getElementById('popupModal');
-const mTitle = document.getElementById('modalTitle');
-const mSubtitle = document.getElementById('modalSubtitle');
-const mContent = document.getElementById('modalContent');
-
-function openPopup(key) {
-    const data = processData[key];
-    if (!data) return;
-    mTitle.innerText = data.title;
-    mSubtitle.innerText = data.subtitle;
-    mContent.innerHTML = data.bullets.map(b => `<li>${b}</li>`).join('');
-    modal.classList.add('active');
-}
-
-function closePopup() { 
-    modal.classList.remove('active'); 
-}
-
-function closePopupOutside(e) { 
-    if (e.target === modal) closePopup(); 
-}
-
-
-// --- EMERGENCY FLASH ENGINE ---
-function flashFormBorder() {
-    var formPanel = document.querySelector('.form-container');
-    
-    if (formPanel) {
-        formPanel.style.transition = "all 0.15s ease-in-out";
-        
-        formPanel.style.borderColor = "#ef4444";
-        formPanel.style.boxShadow = "0 0 25px rgba(239, 68, 68, 0.9)";
-        
-        setTimeout(function() {
-            formPanel.style.borderColor = "#38bdf8";
-            formPanel.style.boxShadow = "0 0 25px rgba(56, 189, 248, 0.9)";
-        }, 300);
-        
-        setTimeout(function() {
-            formPanel.style.borderColor = "#ef4444";
-            formPanel.style.boxShadow = "0 0 25px rgba(239, 68, 68, 0.9)";
-        }, 600);
-
-        setTimeout(function() {
-            formPanel.style.borderColor = "#38bdf8";
-            formPanel.style.boxShadow = "0 0 25px rgba(56, 189, 248, 0.9)";
-        }, 900);
-        
-        setTimeout(function() {
-            formPanel.style.borderColor = "var(--border-color)";
-            formPanel.style.boxShadow = "none";
-        }, 2500);
-    }
-}
-
-// Background interceptor that catches the cross-frame signal safely
-window.addEventListener('message', function(event) {
-    if (event.data === 'triggerFlash') {
-        flashFormBorder();
-    }
-});
-</script>
-
-
-
+        </div> <!-- Closes .right-diagnostics-pane -->
+    </div> <!-- Closes .dashboard-wrapper -->
 </body>
 </html>
